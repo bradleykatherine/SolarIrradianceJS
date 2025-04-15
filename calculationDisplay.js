@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // ✅ Updated styling to sit below the dropdown and grow downward
   calcBox.style.position = 'fixed';
-  calcBox.style.top = 'calc(45%)'; // Just below dropdown's 50%-75px positioning
+  calcBox.style.top = 'calc(50%)'; // Just below dropdown's 50%-75px positioning
   calcBox.style.right = '90px';
   calcBox.style.width = '350px';         // Match dropdown width
   calcBox.style.background = 'rgba(255,255,255,0.95)';
