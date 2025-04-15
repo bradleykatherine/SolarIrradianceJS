@@ -7,7 +7,7 @@ function createFullViewportContainer(parent, id = 'simulation-container') {
   container.style.width = '100vw';
   container.style.height = 'calc(100vh - 48px)';
   container.style.margin = '0';
-  container.style.padding = '0 0 0 20px'; // 20px left padding to space it from the edge
+  container.style.padding = '0 0 0 0px'; // 20px left padding to space it from the edge
 
   // Use flexbox to vertically center the canvas and align it to the left horizontally
   container.style.display = 'flex';
