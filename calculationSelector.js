@@ -7,8 +7,8 @@ document.addEventListener('DOMContentLoaded', () => {
   // Style and position
   selector.style.position = 'fixed';
   selector.style.width = '383px';
-  selector.style.right = '145px';
-  selector.style.top = 'calc(44% - 60px)';
+  selector.style.right = '90px';
+  selector.style.top = 'calc(44% - 30px)';
   selector.style.zIndex = '1001';
   selector.style.padding = '6px';
   selector.style.fontSize = '14px';

@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
   titleDiv.style.fontWeight = 'bold';
   titleDiv.style.color = '#333';
   titleDiv.style.padding = '5px 0';
-  titleDiv.style.margin = '0';
+  titleDiv.style.margin = '5';
   titleDiv.style.backgroundColor = 'transparent';
   titleDiv.style.background = 'none';
 

@@ -5,8 +5,8 @@ document.addEventListener('DOMContentLoaded', () => {
   toggleContainer.id = 'toggleContainer';
 
   toggleContainer.style.position = 'fixed';
-  toggleContainer.style.top = '90px';
-  toggleContainer.style.right = '245px';
+  toggleContainer.style.top = '110px';
+  toggleContainer.style.right = '200px';
   toggleContainer.style.background = '#f4f4f4';
   toggleContainer.style.padding = '10px';
   toggleContainer.style.border = '1px solid #ccc';
