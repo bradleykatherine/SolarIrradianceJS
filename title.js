@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Create a title element
   const titleDiv = document.createElement('div');
   titleDiv.id = 'simulationTitle';
-  titleDiv.textContent = 'Visualizing Solar Intensity Across the Solar System';
+  titleDiv.textContent = 'Visualizing Solar Energy Across the Solar System';
 
   // Style the title to be centered and at the top
   titleDiv.style.textAlign = 'center';
