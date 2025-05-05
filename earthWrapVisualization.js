@@ -1,4 +1,4 @@
-// earthWrapVisualization.js: Ellipses morphing toward Earth, now clears properly on deselection
+// earthWrapVisualization.js: Draws yellow disk, gradient circle over Earth, and an arrow between them
 
 document.addEventListener('DOMContentLoaded', () => {
   function drawWrapEllipses() {
@@ -23,50 +23,67 @@ document.addEventListener('DOMContentLoaded', () => {
     wrapCanvas.height = canvas.height;
 
     const ctx = wrapCanvas.getContext('2d');
-    ctx.clearRect(0, 0, wrapCanvas.width, wrapCanvas.height); // ✅ always clear
+    ctx.clearRect(0, 0, wrapCanvas.width, wrapCanvas.height);
 
-    if (window.selectedCalculation !== 'avgIntensityEarth') return; // ✅ skip drawing if not selected
+    if (window.selectedCalculation !== 'avgIntensityEarth') return;
 
     const { centerX, centerY } = window.earthPosition;
     const radius = 19;
-    const steps = 4;
+    const diskWidth = radius * 0.5;
+    const diskHeight = radius;
 
-    const fixedFirstLeftEdge = centerX - 110;
+    const gap = 20;
 
-    const ellipses = [];
-    const fixedHeight = radius;
+    // ✅ 1. Original full yellow disk (unchanged)
+    const fullDiskCenterX = centerX - radius - diskWidth - 2 * gap;
 
-    for (let i = 0; i < steps; i++) {
-      const t = i / (steps - 1);
-      const width = radius * 0.5 + (radius * 0.5 * t);
-      ellipses.push({ t, width, height: fixedHeight });
-    }
+    ctx.beginPath();
+    ctx.ellipse(fullDiskCenterX, centerY, diskWidth, diskHeight, 0, 0, Math.PI * 2);
+    ctx.fillStyle = 'rgba(255, 255, 0, 0.8)';
+    ctx.fill();
+    ctx.lineWidth = 1;
+    ctx.strokeStyle = 'rgba(230, 190, 0, 1)';
+    ctx.stroke();
 
-    const totalWidths = ellipses.map(e => e.width * 2);
-    const usedWidth = totalWidths.slice(0, -1).reduce((a, b) => a + b, 0);
-    const remaining = centerX - fixedFirstLeftEdge - ellipses[steps - 1].width;
-    const spacing = (remaining - usedWidth) / (steps - 1);
+    // ✅ 2. Circle over Earth (radius = diskHeight), gradient from yellow to black
+    const circleRadius = diskHeight + 2;
 
-    let currentLeft = fixedFirstLeftEdge;
+    const gradient = ctx.createLinearGradient(
+      centerX - circleRadius, centerY,
+      centerX + circleRadius, centerY
+    );
+    gradient.addColorStop(0, 'rgba(255, 255, 0, 0.8)');
+    gradient.addColorStop(1, 'rgba(0, 0, 0, 0.85)');
 
-    for (let i = 0; i < steps; i++) {
-      const { width, height, t } = ellipses[i];
-      const x = currentLeft + width;
-      const y = centerY;
+    ctx.save();
+    ctx.beginPath();
+    ctx.arc(centerX, centerY, circleRadius, 0, Math.PI * 2);
+    ctx.clip();
+    ctx.fillStyle = gradient;
+    ctx.fill();
+    ctx.restore();
 
-      ctx.beginPath();
-      ctx.ellipse(x, y, width, height, 0, 0, Math.PI * 2);
+    // ✅ 3. Arrow from disk to Earth
+    const arrowStartX = fullDiskCenterX + diskWidth;
+    const arrowEndX = centerX - circleRadius;
+    const arrowY = centerY;
 
-      const opacity = 0.7 - t * 0.5;
-      ctx.fillStyle = `rgba(255, 255, 0, ${opacity})`;
-      ctx.fill();
+    ctx.beginPath();
+    ctx.moveTo(arrowStartX, arrowY);
+    ctx.lineTo(arrowEndX, arrowY);
+    ctx.strokeStyle = 'rgba(100, 100, 100, 0.8)';
+    ctx.lineWidth = 2;
+    ctx.stroke();
 
-      ctx.lineWidth = 1;
-      ctx.strokeStyle = `rgba(230, 190, 0, ${opacity + 0.2})`;
-      ctx.stroke();
-
-      currentLeft += 2 * width + spacing;
-    }
+    // Arrowhead
+    const headSize = 6;
+    ctx.beginPath();
+    ctx.moveTo(arrowEndX, arrowY);
+    ctx.lineTo(arrowEndX - headSize, arrowY - headSize / 2);
+    ctx.lineTo(arrowEndX - headSize, arrowY + headSize / 2);
+    ctx.closePath();
+    ctx.fillStyle = 'rgba(100, 100, 100, 0.8)';
+    ctx.fill();
   }
 
   window.refreshEarthWrapVisualization = drawWrapEllipses;
